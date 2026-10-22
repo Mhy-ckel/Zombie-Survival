@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Last Stand: Zombie Survival — Mobile</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-root">
+    <canvas id="game-canvas"></canvas>
+
+    <div id="hud">
+      <div id="hud-left">
+        <div>HP: <span id="health-text">100</span></div>
+        <div>AMMO: <span id="ammo-text">30</span>/30</div>
+        <div>WAVE: <span id="wave-text">1</span></div>
+        <div>SCORE: <span id="score-text">0</span></div>
+      </div>
+
+      <button id="pause-button" type="button">II</button>
+    </div>
+
+    <div id="touch-controls">
+      <div id="joystick-zone">
+        <div id="joystick-base">
+          <div id="joystick-knob"></div>
+        </div>
+      </div>
+
+      <button id="fire-button" type="button">FIRE</button>
+      <button id="reload-button" type="button">RELOAD</button>
+    </div>
+
+    <div id="pause-menu" class="overlay hidden">
+      <h2>PAUSED</h2>
+      <button id="resume-button" type="button">Resume</button>
+      <button id="restart-button" type="button">Restart</button>
+    </div>
+
+    <div id="game-over-screen" class="overlay hidden">
+      <h2>YOU DIED</h2>
+      <p>Score: <span id="final-score">0</span></p>
+      <button id="game-over-restart-button" type="button">Restart</button>
+    </div>
+  </div>
+
+  <div id="rotate-notice">
+    <div id="rotate-icon">&#8635;</div>
+    <p>Rotate your phone to landscape</p>
+  </div>
+
+  <script>
+  var NL = String.fromCharCode(10);
+  function showGameError(message) {
+    let box = document.getElementById("game-error");
+
+    if (!box) {
+      box = document.createElement("pre");
+      box.id = "game-error";
+
+      Object.assign(box.style, {
+        position: "fixed",
+        top: "120px",
+        left: "12px",
+        right: "12px",
+        maxHeight: "55vh",
+        overflow: "auto",
+        padding: "16px",
+        background: "#350909",
+        color: "#ffffff",
+        border: "2px solid #ff5555",
+        borderRadius: "10px",
+        fontSize: "14px",
+        whiteSpace: "pre-wrap",
+        overflowWrap: "anywhere",
+        zIndex: "9999"
+      });
+
+      document.body.appendChild(box);
+    }
+
+    box.textContent += String(message) + NL + NL;
+  }
+
+  window.addEventListener("error", (event) => {
+    showGameError(
+      event.message + NL + event.filename + ":" + event.lineno
+    );
+  });
+
+  window.addEventListener("unhandledrejection", (event) => {
+    showGameError(
+      event.reason?.stack || event.reason || "Unknown error"
+    );
+  });
+</script>
+
+<script type="module">
+  import("./main.js").catch((error) => {
+    showGameError(
+      "Game failed to start:" + NL + (error.stack || error.message)
+    );
+  });
+</script>
+</body>
+</html>

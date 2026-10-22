@@ -1,0 +1,281 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050505;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#game-root {
+  position: fixed;
+  inset: 0;
+  touch-action: none;
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  background: #111;
+}
+
+#hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: calc(12px + env(safe-area-inset-top)) 16px 0 16px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+#hud-left div {
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px #000;
+  margin-bottom: 4px;
+}
+
+#pause-button {
+  pointer-events: auto;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  touch-action: none;
+}
+
+#touch-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+  touch-action: none;
+}
+
+#joystick-zone {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  height: 75%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+#joystick-base {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  display: none;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+#joystick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+#fire-button,
+#reload-button {
+  position: absolute;
+  pointer-events: auto;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 800;
+  touch-action: none;
+}
+
+#fire-button {
+  right: calc(24px + env(safe-area-inset-right));
+  bottom: calc(52px + env(safe-area-inset-bottom));
+  width: 112px;
+  height: 112px;
+  font-size: 20px;
+  background: rgba(210, 40, 40, 0.8);
+}
+
+#fire-button:active {
+  background: rgba(255, 75, 75, 0.95);
+}
+
+#reload-button {
+  right: calc(152px + env(safe-area-inset-right));
+  bottom: calc(40px + env(safe-area-inset-bottom));
+  width: 80px;
+  height: 80px;
+  font-size: 14px;
+  background: rgba(35, 90, 220, 0.75);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 50;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay h2 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.overlay button {
+  min-width: 180px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  background: #2f80ed;
+  color: #fff;
+  touch-action: manipulation;
+}
+
+/* ---------- Landscape layout ---------- */
+
+#hud {
+  padding-left: calc(16px + env(safe-area-inset-left));
+  padding-right: calc(16px + env(safe-area-inset-right));
+}
+
+/* Stats in one row across the top so they use less vertical space */
+#hud-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+#hud-left div {
+  margin-bottom: 0;
+}
+
+#joystick-zone {
+  width: 45%;
+  height: 100%;
+}
+
+#fire-button {
+  right: calc(32px + env(safe-area-inset-right));
+  bottom: calc(28px + env(safe-area-inset-bottom));
+}
+
+#reload-button {
+  right: calc(160px + env(safe-area-inset-right));
+  bottom: calc(24px + env(safe-area-inset-bottom));
+}
+
+@media (orientation: landscape) and (max-height: 480px) {
+  #pause-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  #fire-button {
+    width: 96px;
+    height: 96px;
+    font-size: 18px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+
+  #reload-button {
+    width: 68px;
+    height: 68px;
+    font-size: 12px;
+    right: calc(144px + env(safe-area-inset-right));
+    bottom: calc(18px + env(safe-area-inset-bottom));
+  }
+
+  #joystick-base {
+    width: 110px;
+    height: 110px;
+  }
+
+  .overlay {
+    gap: 10px;
+  }
+
+  .overlay h2 {
+    font-size: 24px;
+  }
+
+  .overlay button {
+    padding: 10px 20px;
+  }
+}
+
+/* Rotate notice: only on touch devices held in portrait */
+#rotate-notice {
+  display: none;
+  position: fixed;
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #050505;
+  color: #fff;
+  text-align: center;
+  z-index: 100;
+}
+
+#rotate-icon {
+  font-size: 72px;
+  line-height: 1;
+}
+
+#rotate-notice p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+@media (orientation: portrait) and (pointer: coarse) {
+  #rotate-notice {
+    display: flex;
+  }
+}
